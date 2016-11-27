@@ -489,7 +489,7 @@ if FONCYES "$VALIDE"; then
 				read -r REBOOT
 
 				if FONCNO "$REBOOT"; then
-					FONCSERVICE restart nginx
+					FONCSERVICE restart nginx &> /dev/null
 					echo "" ; set "200" ; FONCTXT "$1" ; echo -e "${CRED}$TXT1${CEND}"
 					echo "" ; set "210" ; FONCTXT "$1" ; echo -e "${CBLUE}$TXT1${CEND}"
 					echo -e "${CBLUE}                          Ex_Rat - http://mondedie.fr${CEND}" ; echo ""

@@ -163,7 +163,7 @@ if [ ! -f "$NGINXENABLE"/rutorrent.conf ]; then
 	apt-get update && apt-get upgrade -y
 	echo "" ; set "132" "134" ; FONCTXT "$1" "$2" ; echo -e "${CBLUE}$TXT1${CEND}${CGREEN}$TXT2${CEND}" ; echo ""
 
-	apt-get install -y htop openssl apt-utils python python-cheetah python3-lxml python3-openssl build-essential  libssl-dev pkg-config automake libcppunit-dev libtool whois libcurl4-openssl-dev libsigc++-2.0-dev libncurses5-dev vim nano ccze screen subversion apache2-utils curl "$PHPNAME" "$PHPNAME"-cli "$PHPNAME"-fpm "$PHPNAME"-curl "$PHPNAME"-geoip unrar rar zip buildtorrent fail2ban ntp ntpdate munin ffmpeg aptitude dnsutils irssi  libarchive-zip-perl  libjson-perl libjson-xs-perl libxml-libxslt-perl nginx
+	apt-get install -y htop openssl apt-utils python python-cheetah python3-lxml python3-openssl build-essential  libssl-dev pkg-config automake libcppunit-dev libtool whois libcurl4-openssl-dev libsigc++-2.0-dev libncurses5-dev vim nano ccze screen subversion apache2-utils curl "$PHPNAME" "$PHPNAME"-cli "$PHPNAME"-fpm "$PHPNAME"-curl "$PHPNAME"-geoip unrar rar zip buildtorrent fail2ban ntp ntpdate munin ffmpeg aptitude dnsutils irssi  libarchive-zip-perl  libjson-perl libjson-xs-perl libxml-libxslt-perl libwww-perl nginx
 
 	#if [[ $VERSION =~ 8. ]]; then
 		#apt-get install -y "$PHPNAME"-xml "$PHPNAME"-mbstring
@@ -606,6 +606,24 @@ if [ ! -f "$NGINXENABLE"/rutorrent.conf ]; then
 	EOF
 
 	FONCSERVICE restart fail2ban
+
+	# configuration munin pour fai2ban & nginx
+	rm /etc/munin/plugins/fail2ban
+	rm "$MUNIN"/{"fail2ban","nginx_status","nginx_request"}
+
+	for PLUGINS in 'fail2ban' 'nginx_connection_request' 'nginx_memory' 'nginx_status' 'nginx_request'; do
+		cp "$FILES"/munin/"$PLUGINS" "$MUNIN"/"$PLUGINS"
+		chmod 755 "$MUNIN"/"$PLUGINS"
+		ln -s "$MUNIN"/"$PLUGINS" /etc/munin/plugins/"$PLUGINS"
+	done
+
+	cat <<- EOF >> /etc/munin/plugin-conf.d/munin-node
+
+	[nginx*]
+	env.url http://localhost/nginx_status
+	EOF
+
+	FONCSERVICE restart munin-node
 	echo "" ; set "170" "134" ; FONCTXT "$1" "$2" ; echo -e "${CBLUE}$TXT1${CEND}${CGREEN}$TXT2${CEND}" ; echo ""
 
 	# installation vsftpd
