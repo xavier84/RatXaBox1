@@ -43,6 +43,7 @@ INCLUDES="includes"
 
 # contrôle droits utilisateur & OS
 FONCCONTROL
+#supprime alias de .bashrc
 FONCBASHRC
 clear
 
@@ -363,7 +364,7 @@ if [ ! -f "$NGINXENABLE"/rutorrent.conf ]; then
 	git clone git://github.com/Phlooo/ruTorrent-MaterialDesign.git "$RUPLUGINS"/theme/themes/MaterialDesign
 
 	# configuration thème
-	sed -i "s/defaultTheme = \"\"/defaultTheme = \"SpiritOfBonobo\"/g;" "$RUPLUGINS"/theme/conf.php
+	sed -i "s/defaultTheme = \"\"/defaultTheme = \"QuickBox-Dark\"/g;" "$RUPLUGINS"/theme/conf.php
 
 	echo "" ; set "148" "134" ; FONCTXT "$1" "$2" ; echo -e "${CBLUE}$TXT1${CEND}${CGREEN}$TXT2${CEND}" ; echo ""
 
@@ -609,6 +610,7 @@ if [ ! -f "$NGINXENABLE"/rutorrent.conf ]; then
 
 	# configuration munin pour fai2ban & nginx
 	rm /etc/munin/plugins/fail2ban
+	rm /etc/munin/plugins/exim_*
 	rm "$MUNIN"/{"fail2ban","nginx_status","nginx_request"}
 
 	for PLUGINS in 'fail2ban' 'nginx_connection_request' 'nginx_memory' 'nginx_status' 'nginx_request'; do
@@ -797,7 +799,7 @@ if [ ! -f "$NGINXENABLE"/rutorrent.conf ]; then
 		;;
 
 		*)
-			echo rien
+			echo ""
 			;;
 	esac
 
