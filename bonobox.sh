@@ -43,6 +43,8 @@ INCLUDES="includes"
 
 # contrôle droits utilisateur & OS
 FONCCONTROL
+FONCBASHRC
+clear
 
 # Contrôle installation
 if [ ! -f "$NGINXENABLE"/rutorrent.conf ]; then
@@ -460,6 +462,7 @@ if [ ! -f "$NGINXENABLE"/rutorrent.conf ]; then
 	curl -o- https://raw.githubusercontent.com/creationix/nvm/v"$NVM"/install.sh | bash
 	# shellcheck source=/dev/null
 	source ~/.bashrc
+	FONCBASHRC
 	nvm install v"$NODE"
 	echo "" ; set "158" "134" ; FONCTXT "$1" "$2" ; echo -e "${CBLUE}$TXT1${CEND}${CGREEN}$TXT2${CEND}" ; echo ""
 

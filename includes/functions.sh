@@ -12,6 +12,11 @@ FONCCONTROL () {
 	fi
 }
 
+FONCBASHRC () {
+	unalias cp 2>/dev/null
+	unalias rm 2>/dev/null
+	unalias mv 2>/dev/null
+}
 
 FONCUSER () {
 	read -r TESTUSER

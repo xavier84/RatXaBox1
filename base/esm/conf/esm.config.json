@@ -16,7 +16,7 @@
     },
     "ping": {
         "hosts": [
-	    "ratxabox.ovh",
+            "ratxabox.ovh",
             "facebook.com",
             "google.com"
         ]
@@ -34,7 +34,7 @@
                 "port": 80,
                 "protocol": "tcp"
             },
-	    {
+            {
                 "name": "Web Nginx ssl",
                 "host": "localhost",
                 "port": 443,
