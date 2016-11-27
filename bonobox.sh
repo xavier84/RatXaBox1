@@ -353,6 +353,7 @@ if [ ! -f "$NGINXENABLE"/rutorrent.conf ]; then
 	chmod a+x backup-session.sh
 	FONCBAKSESSION
 
+	#check rtorrent et envoie les logs sur paste.debian.net
 	cp -f "$FILES"/scripts/check-rtorrent.sh "$SCRIPT"/check-rtorrent.sh
 	chmod a+x check-rtorrent.sh
 	ln -s "$SCRIPT"/check-rtorrent.sh /usr/sbin/check-rtorrent
