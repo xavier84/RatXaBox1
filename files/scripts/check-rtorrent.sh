@@ -120,17 +120,23 @@ function remove() {
 	fi
 }
 
+# logo
 echo -e "${CBLUE}
-#############################################
-##    Afin d'aider les gens de mondedie    ##
-##     Ce script a été mis en place        ##
-## pour leur transmettre les bonnes infos  ##
-#############################################${CEND}"
+                                      |          |_)         _|
+            __ \`__ \   _ \  __ \   _\` |  _ \  _\` | |  _ \   |    __|
+            |   |   | (   | |   | (   |  __/ (   | |  __/   __| |
+           _|  _|  _|\___/ _|  _|\__,_|\___|\__,_|_|\___|_)_|  _|
+
+
+         ____    __   ____  _  _    __    ____  _____  _  _
+        (  _ \  /__\ (_  _)( \/ )  /__\  (  _ \(  _  )( \/ )
+         )   / /(__)\  )(   )  (  /(__)\  ) _ < )(_)(  )  (
+        (_)\_)(__)(__)(__) (_/\_)(__)(__)(____/(_____)(_/\_)
+${CEND}"
 
 
 		echo -e -n "${CGREEN}Rentrez le nom de votre utilisateur rTorrent:${CEND} "
 		read -r USERNAME
-		echo -e "\nVous avez sélectionné ${CYELLOW}ruTorrent${CEND}\n"
 
 		gen ruTorrent "$USERNAME"
 		checkBin pastebinit
