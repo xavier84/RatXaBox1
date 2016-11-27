@@ -65,7 +65,7 @@ function checkBin() { # $2 => No installation
 
 function genRapport() {
 	echo -e "${CBLUE}\nFichier de rapport terminé${CEND}\n"
-	LINK=$(/usr/bin/pastebinit $RAPPORT)
+	LINK=$(/usr/bin/pastebinit -b http://paste.ubuntu.com $RAPPORT)
 	echo -e "Allez sur le topic adéquat et envoyez ce lien:\n${CYELLOW}$LINK${CEND}"
 	echo -e "Rapport stocké dans le fichier : ${CYELLOW}$RAPPORT${CEND}"
 }
