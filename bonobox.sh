@@ -526,6 +526,10 @@ if [ ! -f "$NGINXENABLE"/rutorrent.conf ]; then
 	# config .rtorrent.rc
 	FONCTORRENTRC "$USER" "$PORT" "$RUTORRENT"
 
+	# torrent welcome
+	cp -f "$FILES"/rutorrent/Welcome.To.RatXaBox.nfo /home/"$USER"/torrents/Welcome.To.RatXaBox.nfo
+	cp -f "$FILES"/rutorrent/Welcome.To.RatXaBox.torrent /home/"$USER"/watch/Welcome.To.RatXaBox.torrent
+
 	# permissions
 	chown -R "$USER":"$USER" /home/"$USER"
 	chown root:"$USER" /home/"$USER"
