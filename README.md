@@ -31,7 +31,7 @@ Multilingue automatique
 apt-get update && apt-get upgrade -y \
 apt-get install git-core -y \
 cd /tmp \
-git clone https://github.com/xavier84/RatXaBox ratxabox \
+git clone https://github.com/xavier84/RatXaBox1 ratxabox \
 cd ratxabox \
 chmod a+x bonobox.sh && ./bonobox.sh
 ```
