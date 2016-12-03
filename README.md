@@ -28,12 +28,11 @@ Aux traducteurs: Sophie, Spectre, Hardware, Zarev, SirGato, MiguelSam
 ## Installation:
 Multilingue automatique
 ```
-apt-get update && apt-get upgrade -y
-apt-get install git-core -y
-
-cd /tmp
-git clone https://github.com/xavier84/RatXaBox ratxabox
-cd ratxabox
+apt-get update && apt-get upgrade -y \
+apt-get install git-core -y \
+cd /tmp \
+git clone https://github.com/xavier84/RatXaBox ratxabox \
+cd ratxabox \
 chmod a+x bonobox.sh && ./bonobox.sh
 ```
 ![caps1](https://raw.github.com/exrat/rutorrent-bonobox/master/files/caps_script01.png)
