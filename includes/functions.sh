@@ -3,11 +3,11 @@
 FONCCONTROL () {
 	if [[ "$VERSION" =~ 7.* ]] || [[ "$VERSION" =~ 8.* ]]; then
 		if [ "$(id -u)" -ne 0 ]; then
-			echo "" ; set "100" ; FONCTXT "$1" ; echo -e "${CRED}$TXT1${CEND}" 1>&2 ; echo ""
+			echo ""; set "100"; FONCTXT "$1"; echo -e "${CRED}$TXT1${CEND}" 1>&2 ; echo ""
 			exit 1
 		fi
 	else
-			echo "" ; set "130" ; FONCTXT "$1" ; echo -e "${CRED}$TXT1${CEND}" ; echo ""
+			echo ""; set "130"; FONCTXT "$1"; echo -e "${CRED}$TXT1${CEND}"; echo ""
 			exit 1
 	fi
 }
@@ -27,10 +27,10 @@ FONCUSER () {
 			# shellcheck disable=SC2104
 			break
 		else
-			echo "" ; set "110" ; FONCTXT "$1" ; echo -e "${CRED}$TXT1${CEND}" ; echo ""
+			echo ""; set "110"; FONCTXT "$1"; echo -e "${CRED}$TXT1${CEND}"; echo ""
 		fi
 	else
-		echo "" ; set "198" ; FONCTXT "$1" ; echo -e "${CRED}$TXT1${CEND}" ; echo ""
+		echo ""; set "198"; FONCTXT "$1"; echo -e "${CRED}$TXT1${CEND}"; echo ""
 	fi
 }
 
@@ -38,7 +38,7 @@ FONCPASS () {
 	read -r REPPWD
 	if [ "$REPPWD" = "" ]; then
 		AUTOPWD=$(tr -dc "1-9a-nA-Np-zP-Z" < /dev/urandom | head -c 8)
-		echo "" ; set "118" "120" ; FONCTXT "$1" "$2" ; echo  -n -e "${CGREEN}$TXT1${CEND} ${CYELLOW}$AUTOPWD${CEND} ${CGREEN}$TXT2 ${CEND}"
+		echo ""; set "118" "120"; FONCTXT "$1" "$2"; echo  -n -e "${CGREEN}$TXT1${CEND} ${CYELLOW}$AUTOPWD${CEND} ${CGREEN}$TXT2 ${CEND}"
 		read -r REPONSEPWD
 		if FONCNO "$REPONSEPWD"; then
 			echo
@@ -54,7 +54,7 @@ FONCPASS () {
 			# shellcheck disable=SC2104
 			break
 		else
-			echo "" ; set "122" ; FONCTXT "$1" ; echo -e "${CRED}$TXT1${CEND}" ; echo ""
+			echo ""; set "122"; FONCTXT "$1"; echo -e "${CRED}$TXT1${CEND}"; echo ""
 		fi
 	fi
 }
@@ -272,4 +272,15 @@ FONCBAKSESSION () {
 	FONCBACKUP $USER
 	exit 0
 	EOF
+}
+
+FONCMEDIAINFO () {
+	cd /tmp || exit
+	wget http://mediaarea.net/download/binary/libzen0/"$LIBZEN0"/libzen0_"$LIBZEN0"-1_"$SYS"."$DEBNUMBER"
+	wget http://mediaarea.net/download/binary/libmediainfo0/"$LIBMEDIAINFO0"/libmediainfo0_"$LIBMEDIAINFO0"-1_"$SYS"."$DEBNUMBER"
+	wget http://mediaarea.net/download/binary/mediainfo/"$MEDIAINFO"/mediainfo_"$MEDIAINFO"-1_"$SYS"."$DEBNUMBER"
+
+	dpkg -i libzen0_"$LIBZEN0"-1_"$SYS"."$DEBNUMBER"
+	dpkg -i libmediainfo0_"$LIBMEDIAINFO0"-1_"$SYS"."$DEBNUMBER"
+	dpkg -i mediainfo_"$MEDIAINFO"-1_"$SYS"."$DEBNUMBER"
 }

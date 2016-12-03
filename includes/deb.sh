@@ -1,36 +1,30 @@
 #!/bin/bash
 
 FONCDEP () {
-	cat <<- EOF > "$SOURCES"/non-free.list
-	#dépôt paquet propriétaire
-	deb http://ftp2.fr.debian.org/debian/ $1 main non-free
-	deb-src http://ftp2.fr.debian.org/debian/ $1 main non-free
-	EOF
+		cat <<- EOF > "$SOURCES"/non-free.list
+			#dépôt paquet propriétaire
+			deb http://ftp2.fr.debian.org/debian/ $1 main non-free
+			deb-src http://ftp2.fr.debian.org/debian/ $1 main non-free
+		EOF
 
-	cat <<- EOF > "$SOURCES"/nginx.list
-	# dépôt nginx
-	deb http://nginx.org/packages/debian/ $1 nginx
-	deb-src http://nginx.org/packages/debian/ $1 nginx
-	EOF
+		cat <<- EOF > "$SOURCES"/nginx.list
+			# dépôt nginx
+			deb http://nginx.org/packages/debian/ $1 nginx
+			deb-src http://nginx.org/packages/debian/ $1 nginx
+		EOF
 
-	# clés
-	wget http://www.dotdeb.org/dotdeb.gpg
-	apt-key add dotdeb.gpg
+		# clés
+		wget http://www.dotdeb.org/dotdeb.gpg
+		apt-key add dotdeb.gpg
 
-	wget http://nginx.org/keys/nginx_signing.key
-	apt-key add nginx_signing.key
+		wget http://nginx.org/keys/nginx_signing.key
+		apt-key add nginx_signing.key
 }
 
 # ajout dépôts
 cd /tmp || exit
 
 if [[ $VERSION =~ 7. ]]; then
-
-	DEBNUMBER="Debian_7.0.deb"
-	DEBNAME="wheezy"
-	PHPPATH="/etc/php5"
-	PHPNAME="php5"
-	PHPSOCK="/var/run/php5-fpm.sock"
 
 	cat <<- EOF > "$SOURCES"/dotdeb-php56.list
 	# dépôt dotdeb php 5.6
@@ -39,15 +33,6 @@ if [[ $VERSION =~ 7. ]]; then
 	EOF
 
 elif [[ $VERSION =~ 8. ]]; then
-	# shellcheck disable=SC2034
-	DEBNUMBER="Debian_8.0.deb"
-	DEBNAME="jessie"
-	#PHPPATH="/etc/php/7.0"
-	#PHPNAME="php7.0"
-	#PHPSOCK="/run/php/php7.0-fpm.sock"
-	PHPPATH="/etc/php5"
-	PHPNAME="php5"
-	PHPSOCK="/var/run/php5-fpm.sock"
 
 	cat <<- EOF > "$SOURCES"/dotdeb.list
 	# dépôt dotdeb
