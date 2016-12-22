@@ -6,7 +6,7 @@
 
 
 # includes
-INCLUDES="/tmp/rutorrent-bonobox/includes"
+INCLUDES="/tmp/ratxabox//includes"
 # shellcheck source=/dev/null
 . "$INCLUDES"/variables.sh
 # shellcheck source=/dev/null
