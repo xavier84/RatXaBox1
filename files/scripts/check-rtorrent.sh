@@ -6,13 +6,14 @@
 
 
 # includes
-INCLUDES="/tmp/ratxabox//includes"
+INCLUDES="/tmp/ratxabox/includes"
 # shellcheck source=/dev/null
 . "$INCLUDES"/variables.sh
 # shellcheck source=/dev/null
 . "$INCLUDES"/langues.sh
 # shellcheck source=/dev/null
 . "$INCLUDES"/functions.sh
+
 
 FONCCONTROL
 echo "";
@@ -22,10 +23,18 @@ read -r USERNAME
 
 if [[ $(grep "$USERNAME:" -c /etc/shadow) != "1" ]]; then
 	set "199"; FONCTXT "$1"; echo -e "${CRED}$TXT1${CEND}"
-	exit 0
 else
 	FONCGEN ruTorrent "$USERNAME"
 	FONCCHECKBIN pastebinit
+
+	cat <<-EOF >> $RAPPORT
+
+		.......................................................................................................................................
+		## Partition
+		.......................................................................................................................................
+
+	EOF
+	df -h >> $RAPPORT
 
 	FONCTESTRTORRENT
 
