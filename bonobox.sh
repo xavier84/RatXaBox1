@@ -403,7 +403,7 @@ if [ ! -f "$NGINXENABLE"/rutorrent.conf ]; then
 
 	cd "$SCRIPT" || exit
 
-	for COPY in 'updateGeoIP.sh' 'backup-session.sh'
+	for COPY in 'updateGeoIP.sh' 'backup-session.sh' 'openvpn-install.sh'
 	do
 		cp -f "$FILES"/scripts/"$COPY" "$SCRIPT"/"$COPY"
 		chmod a+x "$COPY"
@@ -411,6 +411,7 @@ if [ ! -f "$NGINXENABLE"/rutorrent.conf ]; then
 
 	sh updateGeoIP.sh
 	FONCBAKSESSION
+	ln -s "$SCRIPT"/openvpn-install.sh /usr/sbin/openvpn-ratxabox
 
 	# favicons trackers
 	cp -f /tmp/favicon/*.png "$RUPLUGINS"/tracklabels/trackers/
