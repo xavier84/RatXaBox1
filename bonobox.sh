@@ -100,14 +100,6 @@ if [ ! -f "$NGINXENABLE"/rutorrent.conf ]; then
 	echo "" ; set "128" ; FONCTXT "$1" ; echo -n -e "${CGREEN}$TXT1 ${CEND}"
 	read -r SERVFTP
 
-	# choix de streaming
-	echo "" ; set "234" ; FONCTXT "$1" ; echo -e "${CBLUE}$TXT1${CEND}"
-	set "236" "310" ; FONCTXT "$1" "$2" ; echo -e "${CYELLOW}$TXT1${CEND} ${CGREEN}$TXT2${CEND}"
-	set "238" "312" ; FONCTXT "$1" "$2" ; echo -e "${CYELLOW}$TXT1${CEND} ${CGREEN}$TXT2${CEND}"
-	set "240" "314" ; FONCTXT "$1" "$2" ; echo -e "${CYELLOW}$TXT1${CEND} ${CGREEN}$TXT2${CEND}"
-	set "260" ; FONCTXT "$1" ; echo -n -e "${CBLUE}$TXT1 ${CEND}"
-	read -r STREM
-
 	# récupération 5% root sur /home ou /home/user si présent
 	FSHOME=$(df -h | grep /home | cut -c 6-9)
 	if [ "$FSHOME" = "" ]; then
@@ -403,7 +395,7 @@ if [ ! -f "$NGINXENABLE"/rutorrent.conf ]; then
 
 	cd "$SCRIPT" || exit
 
-	for COPY in 'updateGeoIP.sh' 'backup-session.sh' 'openvpn-install.sh'
+	for COPY in 'updateGeoIP.sh' 'backup-session.sh'
 	do
 		cp -f "$FILES"/scripts/"$COPY" "$SCRIPT"/"$COPY"
 		chmod a+x "$COPY"
@@ -411,7 +403,6 @@ if [ ! -f "$NGINXENABLE"/rutorrent.conf ]; then
 
 	sh updateGeoIP.sh
 	FONCBAKSESSION
-	ln -s "$SCRIPT"/openvpn-install.sh /usr/sbin/openvpn-ratxabox
 
 	# favicons trackers
 	cp -f /tmp/favicon/*.png "$RUPLUGINS"/tracklabels/trackers/
@@ -825,43 +816,6 @@ if [ ! -f "$NGINXENABLE"/rutorrent.conf ]; then
 
 	FONCSERVICE restart nginx
 
-	#plex ou emby
-	case $STREM  in
-		1)
-			if [[ $VERSION =~ 7. ]]; then
-				echo "deb http://shell.ninthgate.se/packages/debian wheezy main" | tee -a /etc/apt/sources.list.d/plexmediaserver.list
-			elif [[ $VERSION =~ 8. ]]; then
-				echo "deb http://shell.ninthgate.se/packages/debian jessie main" | tee -a /etc/apt/sources.list.d/plexmediaserver.list
-			fi
-			curl http://shell.ninthgate.se/packages/shell.ninthgate.se.gpg.key | apt-key add -
-			aptitude update && aptitude install -y plexmediaserver && service plexmediaserver start
-			#ajout icon de plex
-			git clone https://github.com/xavier84/linkplex /var/www/rutorrent/plugins/linkplex
-			chown -R "$WDATA" /var/www/rutorrent/plugins/linkplex
-		;;
-
-		2)
-			aptitude install -y  mono-xsp4
-			wget http://download.opensuse.org/repositories/home:emby/Debian_8.0/Release.key
-			apt-key add - < Release.key
-			apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
-			#ajout depot
-			echo "deb http://download.mono-project.com/repo/debian wheezy main" | tee /etc/apt/sources.list.d/mono-xamarin.list
-			echo "deb http://download.mono-project.com/repo/debian wheezy-apache24-compat main" | tee -a /etc/apt/sources.list.d/mono-xamarin.list
-			echo "deb http://download.mono-project.com/repo/debian wheezy-libjpeg62-compat main" | tee -a /etc/apt/sources.list.d/mono-xamarin.list
-			echo 'deb http://download.opensuse.org/repositories/home:/emby/Debian_8.0/ /' >> /etc/apt/sources.list.d/emby-server.list
-			aptitude update
-			aptitude install -y mono-complete
-			aptitude install -y emby-server
-			#ajout icon de emby
-			git clone https://github.com/xavier84/linkemby /var/www/rutorrent/plugins/linkemby
-			chown -R "$WDATA" /var/www/rutorrent/plugins/linkemby
-		;;
-
-		*)
-			echo ""
-			;;
-	esac
 
 	set "180" ; FONCTXT "$1" ; echo -e "${CBLUE}$TXT1${CEND}"
 
