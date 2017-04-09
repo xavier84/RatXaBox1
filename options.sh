@@ -23,12 +23,7 @@ clear
 #plex ou emby
 	case $CHOIXS  in
 		1)
-			if [[ $VERSION =~ 7. ]]; then
-				echo "deb http://shell.ninthgate.se/packages/debian wheezy main" | tee -a /etc/apt/sources.list.d/plexmediaserver.list
-			elif [[ $VERSION =~ 8. ]]; then
-				echo "deb http://shell.ninthgate.se/packages/debian jessie main" | tee -a /etc/apt/sources.list.d/plexmediaserver.list
-			fi
-			curl http://shell.ninthgate.se/packages/shell.ninthgate.se.gpg.key | apt-key add -
+			apt-get install apt-transport-https -y
 			aptitude update && aptitude install -y plexmediaserver && service plexmediaserver start
 			#ajout icon de plex
 			git clone https://github.com/xavier84/linkplex /var/www/rutorrent/plugins/linkplex
