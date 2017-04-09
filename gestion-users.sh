@@ -169,7 +169,7 @@ if FONCYES "$VALIDE"; then
 				fi
 
 				sed -i "s/\"\/\"/\"\/home\/$USER\"/g;" "$SBMCONFUSER"/"$USER"/config.ini
-				sed -i "s/https:\/\/graph.domaine.fr/..\/graph\/$USER.php/g;" "$SBMCONFUSER"/"$USER"/config.ini
+				sed -i "s/https:\/\/graph.domaine.fr/..\/..\/graph\/$USER.php/g;" "$SBMCONFUSER"/"$USER"/config.ini
 				sed -i "s/RPC1/$USERMAJ/g;" "$SBMCONFUSER"/"$USER"/config.ini
 				sed -i "s/contact@mail.com/$EMAIL/g;" "$SBMCONFUSER"/"$USER"/config.ini
 
@@ -326,7 +326,7 @@ if FONCYES "$VALIDE"; then
 
 				sed -i "s/\"\/\"/\"\/home\/$USER\"/g;" "$SBMCONFUSER"/"$USER"/config.ini
 				sed -i "s/https:\/\/rutorrent.domaine.fr/..\/$USER.html/g;" "$SBMCONFUSER"/"$USER"/config.ini
-				sed -i "s/https:\/\/graph.domaine.fr/..\/$USER.html/g;" "$SBMCONFUSER"/"$USER"/config.ini
+				sed -i "s/https:\/\/graph.domaine.fr/..\/..\/$USER.html/g;" "$SBMCONFUSER"/"$USER"/config.ini
 				sed -i "s/RPC1/$USERMAJ/g;" "$SBMCONFUSER"/"$USER"/config.ini
 				sed -i "s/contact@mail.com/$EMAIL/g;" "$SBMCONFUSER"/"$USER"/config.ini
 

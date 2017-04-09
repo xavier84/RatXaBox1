@@ -568,7 +568,7 @@ if [ ! -f "$NGINXENABLE"/rutorrent.conf ]; then
 	cd "$SBMCONFUSER" || exit
 	mkdir "$USER"
 	cp -f "$FILES"/sbm/config-root.ini "$SBMCONFUSER"/"$USER"/config.ini
-	sed -i "s/https:\/\/graph.domaine.fr/..\/graph\/$USER.php/g;" "$SBMCONFUSER"/"$USER"/config.ini
+	sed -i "s/https:\/\/graph.domaine.fr/..\/..\/graph\/$USER.php/g;" "$SBMCONFUSER"/"$USER"/config.ini
 	sed -i "s/\"\/\"/\"\/home\/$USER\"/g;" "$SBMCONFUSER"/"$USER"/config.ini
 	sed -i "s/RPC1/$USERMAJ/g;" "$SBMCONFUSER"/"$USER"/config.ini
 	sed -i "s/contact@mail.com/$EMAIL/g;" "$SBMCONFUSER"/"$USER"/config.ini
@@ -994,7 +994,7 @@ if [ ! -f "$NGINXENABLE"/rutorrent.conf ]; then
 			mkdir "$USER"
 			cp -f "$FILES"/sbm/config-user.ini "$SBMCONFUSER"/"$USER"/config.ini
 			sed -i "s/\"\/\"/\"\/home\/$USER\"/g;" "$SBMCONFUSER"/"$USER"/config.ini
-			sed -i "s/https:\/\/graph.domaine.fr/..\/graph\/$USER.php/g;" "$SBMCONFUSER"/"$USER"/config.ini
+			sed -i "s/https:\/\/graph.domaine.fr/..\/..\/graph\/$USER.php/g;" "$SBMCONFUSER"/"$USER"/config.ini
 			sed -i "s/RPC1/$USERMAJ/g;" "$SBMCONFUSER"/"$USER"/config.ini
 			sed -i "s/contact@mail.com/$EMAIL/g;" "$SBMCONFUSER"/"$USER"/config.ini
 
