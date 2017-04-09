@@ -507,8 +507,8 @@ if FONCYES "$VALIDE"; then
 
 			;;
 			10) # option
-				chmod a+x ./options.sh
-				bash ./options.sh
+				chmod a+x "$FILES"/options.sh
+				bash "$FILES"/options.sh
 
 			;;
 			7) # sortir gestion utilisateurs
