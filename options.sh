@@ -1,6 +1,6 @@
 #!/bin/bash
 
-INCLUDES=""$BONOBOX"/includes"
+INCLUDES="$BONOBOX/includes"
 . "$INCLUDES"/variables.sh
 . "$INCLUDES"/langues.sh
 . "$INCLUDES"/functions.sh
