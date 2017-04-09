@@ -24,6 +24,8 @@ clear
 	case $CHOIXS  in
 		1)
 			apt-get install apt-transport-https -y
+			echo "deb https://downloads.plex.tv/repo/deb/ public main" > /etc/apt/sources.list.d/plexmediaserver.list
+			wget -q https://downloads.plex.tv/plex-keys/PlexSign.key -O - | sudo apt-key add -
 			aptitude update && aptitude install -y plexmediaserver && service plexmediaserver start
 			#ajout icon de plex
 			git clone https://github.com/xavier84/linkplex /var/www/rutorrent/plugins/linkplex
