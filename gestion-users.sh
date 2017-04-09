@@ -507,8 +507,8 @@ if FONCYES "$VALIDE"; then
 
 			;;
 			10) # option
-				chmod a+x "$FILES"/options.sh
-				bash "$FILES"/options.sh
+				chmod a+x "$BONOBOX"/options.sh
+				bash "$BONOBOX"/options.sh
 
 			;;
 			7) # sortir gestion utilisateurs
