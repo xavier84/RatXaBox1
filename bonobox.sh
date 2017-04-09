@@ -774,11 +774,6 @@ if [ ! -f "$NGINXENABLE"/rutorrent.conf ]; then
 	chown -R "$WDATA" "$NGINXWEB"/tardistart
 	chmod 755 "$NGINXWEB"/tardistart
 
-	#variable NGINXCONFDRAT
-	if [ ! -f "$NGINXCONFDRAT"/sickrage.conf ]; then
-		NGINXCONFDRAT="$NGINXCONFD"
-	fi
-
 	#install sickrage
 	PORT=20001
 
