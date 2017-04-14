@@ -85,6 +85,7 @@ fi
 			systemctl restart syncthing@"$USER".service
 			cp -f "$BONOBOX"/files/syncthing/syncthing.vhost "$NGINXCONFDRAT"/syncthing.conf
 			FONCSERVICE restart nginx
+			salut
 		;;
 
 		0)
