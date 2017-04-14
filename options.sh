@@ -79,7 +79,9 @@ fi
 			chmod -R 700 /home/"$USER"/.config
 			systemctl enable syncthing@"$USER".service
 			systemctl start syncthing@"$USER".service
+			sleep 3
 			sed -i -e 's/127.0.0.1/0.0.0.0/g' /home/"$USER"/.config/syncthing/config.xml
+			sed -i -e '2,20d' /home/"$USER"/.config/syncthing/config.xml
 			systemctl restart syncthing@"$USER".service
 			cp -f "$BONOBOX"/files/syncthing/syncthing.vhost "$NGINXCONFDRAT"/syncthing.conf
 			FONCSERVICE restart nginx
