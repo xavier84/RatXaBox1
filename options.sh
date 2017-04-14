@@ -75,7 +75,7 @@ fi
 
 			cp -f "$FILES"/syncthing/syncthing@.service /etc/systemd/system/syncthing@"$USER".service
 			mkdir -p /home/"$USER"/.config/syncthing
-			chown -R "$USER":"$USER" /home/"$USER"/.config/syncthing
+			chown -R "$USER":"$USER" /home/"$USER"/.config
 			chmod -R 700 /home/"$USER"/.config
 			systemctl enable syncthing@"$USER".service
 			systemctl start syncthing@"$USER".service
