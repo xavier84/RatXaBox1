@@ -8,6 +8,11 @@ INCLUDES="./includes"
 clear
 . "$INCLUDES"/logo.sh
 
+#variable NGINXCONFDRAT
+if [ ! -f "$NGINXCONFDRAT"/sickrage.conf ]; then
+	NGINXCONFDRAT="$NGINXCONFD"
+fi
+
 
 # choix de streaming
 	echo "" ; set "234" ; FONCTXT "$1" ; echo -e "${CBLUE}$TXT1${CEND}"
@@ -59,6 +64,25 @@ clear
 		4)
 			wget https://raw.githubusercontent.com/xavier84/Script-xavier/master/filebot/filebot.sh
 			chmod +x filebot.sh && ./filebot.sh
+		;;
+
+		5)
+			read -p "$(echo -e ${CGREEN}Choix de l\'utilisateur : ${CEND})" USER
+			curl -s https://syncthing.net/release-key.txt | apt-key add -
+			echo "deb http://apt.syncthing.net/ syncthing release" | tee /etc/apt/sources.list.d/syncthing.list
+			apt-get update
+			apt-get install syncthing
+
+			cp -f "$FILES"/syncthing/syncthing@.service /etc/systemd/system/syncthing@"$USER".service
+			mkdir -p /home/"$USER"/.config/syncthing
+			chown -R "$USER":"$USER" /home/"$USER"/.config/syncthing
+			chmod -R 700 /home/"$USER"/.config
+			systemctl enable syncthing@"$USER".service
+			systemctl start syncthing@"$USER".service
+			sed -i -e 's/127.0.0.1/0.0.0.0/g' /home/"$USER"/.config/syncthing/config.xml
+			systemctl restart syncthing@"$USER".service
+			cp -f "$BONOBOX"/files/syncthing/syncthing.vhost "$NGINXCONFDRAT"/syncthing.conf
+			FONCSERVICE restart nginx
 		;;
 
 		0)
