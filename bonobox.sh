@@ -253,7 +253,7 @@ if [ ! -f "$NGINXENABLE"/rutorrent.conf ]; then
 	wget -T 10 -t 3 http://www.bonobox.net/script/favicon.tar.gz || wget -T 10 -t 3 http://alt.bonobox.net/favicon.tar.gz
 	tar xzfv favicon.tar.gz
 
-	#Compteur de telechargement http://ratxabox.ovh/compteur.txt
+	#Compteur de telechargement pour la page http://ratxabox.ovh/
 	wget -T 10 -t 3 http://ratxabox.ovh/compteur.txt
 
 	# création fichiers couleurs nano
