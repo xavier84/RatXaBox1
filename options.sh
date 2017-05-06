@@ -1,6 +1,6 @@
 #!/bin/bash
 
-INCLUDES="./includes"
+INCLUDES="/tmp/ratxabox/includes"
 . "$INCLUDES"/variables.sh
 . "$INCLUDES"/langues.sh
 . "$INCLUDES"/functions.sh
