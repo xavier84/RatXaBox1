@@ -231,7 +231,9 @@ if [ ! -f "$NGINXENABLE"/rutorrent.conf ]; then
 	libwww-perl \
 	nginx \
 	libmms0 \
-	pastebinit
+	pastebinit \
+	iptables \
+	sudo
 
 	if [[ $VERSION =~ 7. ]]; then
 		apt-get install -y \
@@ -845,6 +847,12 @@ if [ ! -f "$NGINXENABLE"/rutorrent.conf ]; then
 	sed -i "s|@PORT@|$PORT|g;" "$NGINXCONFDRAT"/couchpotato.conf
 
 	FONCSERVICE restart nginx
+
+	#Page reboot
+	git clone https://github.com/xavier84/Reboot.git "$REBOOT"
+	chown -R "$WDATA" "$REBOOT"
+	chmod 755 "$REBOOT"
+	chmod 775 "$REBOOT"/script/reboot.sh
 
 
 	set "180"; FONCTXT "$1"; echo -e "${CBLUE}$TXT1${CEND}"
