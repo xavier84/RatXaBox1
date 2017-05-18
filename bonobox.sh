@@ -851,8 +851,12 @@ if [ ! -f "$NGINXENABLE"/rutorrent.conf ]; then
 	#Page reboot
 	git clone https://github.com/xavier84/Reboot.git "$REBOOT"
 	chown -R "$WDATA" "$REBOOT"
-	chmod 755 "$REBOOT"
+	chmod -Rf 755 "$REBOOT"
 	chmod 775 "$REBOOT"/script/reboot.sh
+	cp -f "$BONOBOX"/files/sudo/sudoers /etc/sudoers
+
+	FONCSERVICE restart sudo
+
 
 
 	set "180"; FONCTXT "$1"; echo -e "${CBLUE}$TXT1${CEND}"
