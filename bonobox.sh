@@ -782,7 +782,8 @@ if [ ! -f "$NGINXENABLE"/rutorrent.conf ]; then
 
 
 	#install
-	git clone https://github.com/SickRage/SickRage "$SICKRAGE"
+	#git clone https://github.com/SickRage/SickRage "$SICKRAGE"
+	git clone https://git.sickrage.ca/SiCKRAGE/sickrage "$SICKRAGE"
 	cd "$SICKRAGE" || exit
 	chown -R "$USER":"$USER" "$SICKRAGE"
 
