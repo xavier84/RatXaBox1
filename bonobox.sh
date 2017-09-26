@@ -783,8 +783,6 @@ if [ ! -f "$NGINXENABLE"/rutorrent.conf ]; then
 
 	#install
 	git clone https://github.com/SickRage/SickRage "$SICKRAGE"
-	cd /opt || exit
-	cd "$SICKRAGE" || exit
 	chown -R "$USER":"$USER" "$SICKRAGE"
 	chmod -R 755 "$SICKRAGE"
 
@@ -815,7 +813,6 @@ if [ ! -f "$NGINXENABLE"/rutorrent.conf ]; then
 
 	#install couchpotato
 	git clone https://github.com/CouchPotato/CouchPotatoServer.git "$COUCHPOTATO"
-	cd "$COUCHPOTATO" || exit
 
 	#compteur port
 	echo "$PORT" >> "$COUCHPOTATO"/histo.log
