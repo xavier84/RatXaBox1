@@ -34,8 +34,11 @@ fi
 			wget -q https://downloads.plex.tv/plex-keys/PlexSign.key -O - | apt-key add -
 			aptitude update && aptitude install -y plexmediaserver && service plexmediaserver start
 			#ajout icon de plex
-			git clone https://github.com/xavier84/linkplex /var/www/rutorrent/plugins/linkplex
-			chown -R "$WDATA" /var/www/rutorrent/plugins/linkplex
+			if [ ! -d "/var/www/rutorrent/plugins/linkplex" ];then
+				git clone https://github.com/xavier84/linkplex /var/www/rutorrent/plugins/linkplex
+				chown -R "$WDATA" /var/www/rutorrent/plugins/linkplex
+
+			fi
 		;;
 
 		2)
@@ -60,8 +63,10 @@ fi
 			aptitude update
 			aptitude install -y  mono-xsp4 mono-complete emby-server
 			#ajout icon de emby
-			git clone https://github.com/xavier84/linkemby /var/www/rutorrent/plugins/linkemby
-			chown -R "$WDATA" /var/www/rutorrent/plugins/linkemby
+			if [ ! -d "/var/www/rutorrent/plugins/linkemby" ];then
+				git clone https://github.com/xavier84/linkemby /var/www/rutorrent/plugins/linkemby
+				chown -R "$WDATA" /var/www/rutorrent/plugins/linkemby
+			fi
 		;;
 
 
