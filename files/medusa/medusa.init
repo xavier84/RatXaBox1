@@ -48,7 +48,7 @@ NAME=Medusa_$MD_USER
 MD_HOME=$MD_INSTALL
 MD_DATA=$MD_HOME/data/$MD_USER
 MD_OPTS=--config=$MD_DATA/config.ini
-MD_PIDFILE=$MD_DATA/sickrage.pid
+MD_PIDFILE=$MD_DATA/medusa.pid
 
 
 
