@@ -206,6 +206,49 @@ clear
 		8)
 			set "184" ; FONCTXT "$1" ; echo -e "${CGREEN}$TXT1 ${CEND}"
 			read -r USER
+			if [ ! -d "$MEDUSA" ];then
+				apt-get install -y git-core python python-cheetah
+				git clone git://github.com/pymedusa/Medusa.git "$MEDUSA"
+				chown -R "$USER":"$USER" "$MEDUSA"
+				chmod -R 755 "$MEDUSA"
+				#compteur
+				PORT=5051
+				echo "$PORT" >> "$MEDUSA"/histo.log
+			fi
+			# calcul port medusa
+			FONCPORT "$MEDUSA" 20100
+			#compteur
+			echo "$PORT" >> "$MEDUSA"/histo.log
+			#config
+			cp -f "$BONOBOX"/files/medusa/medusa.init /etc/init.d/medusa-"$USER"
+			chmod +x /etc/init.d/medusa-"$USER"
+			sed -i -e 's/xataz/'$USER'/g' /etc/init.d/medusa-"$USER"
+			sed -i -e 's/MD_USER=/MD_USER='$USER'/g' /etc/init.d/medusa-"$USER"
+			/etc/init.d/medusa-"$USER" start && sleep 5 && /etc/init.d/medusa-"$USER" stop
+			sleep 1
+			sed -i -e 's/web_root = ""/web_root = \/medusa/g' "$MEDUSA"/data/"$USER"/config.ini
+			sed -i -e 's/web_port = 8081/web_port = '$PORT'/g' "$MEDUSA"/data/"$USER"/config.ini
+			sed -i -e 's/torrent_dir = ""/torrent_dir = \/home\/'$USER'\/watch\//g' "$MEDUSA"/data/"$USER"/config.ini
+			sed -i -e 's/web_host = 0.0.0.0/web_host = 127.0.0.1/g' "$MEDUSA"/data/"$USER"/config.ini
+			FONCSCRIPT "$USER" medusa
+			FONCSERVICE start medusa-"$USER"
+
+			if [ ! -f "$NGINXCONFDRAT"/medusa.conf ]; then
+				cp -f "$BONOBOX"/files/medusa/medusa.vhost "$NGINXCONFDRAT"/medusa.conf
+			else
+				sed -i '$d' "$NGINXCONFDRAT"/medusa.conf
+				cat <<- EOF >> "$NGINXCONFDRAT"/medusa.conf
+				                if (\$remote_user = "@USER@") {
+				                        proxy_pass http://127.0.0.1:@PORT@;
+				                        break;
+		    		           }
+		    		  }
+				EOF
+			fi
+
+			sed -i "s|@USER@|$USER|g;" "$NGINXCONFDRAT"/medusa.conf
+			sed -i "s|@PORT@|$PORT|g;" "$NGINXCONFDRAT"/medusa.conf
+			FONCSERVICE restart nginx
 		;;
 
 		0)

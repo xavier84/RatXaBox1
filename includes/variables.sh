@@ -76,6 +76,7 @@ ARGREBOOT=$(echo "$ARG" | tr -s ' ' '\n' | grep -m 1 reboot)
 WDATA="www-data:www-data"
 SICKRAGE="/opt/sickrage"
 COUCHPOTATO="/opt/couchpotato"
+MEDUSA="/opt/medusa"
 REBOOT="/var/www/reboot"
 
 RAPPORT="/tmp/rapport.txt"
