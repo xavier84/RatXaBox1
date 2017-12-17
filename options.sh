@@ -18,6 +18,7 @@ clear
 	set "246" "824" ; FONCTXT "$1" "$2" ; echo -e "${CYELLOW}$TXT1${CEND} ${CGREEN}$TXT2${CEND}" #sickrage 6
 	set "294" "826" ; FONCTXT "$1" "$2" ; echo -e "${CYELLOW}$TXT1${CEND} ${CGREEN}$TXT2${CEND}" #couchpotato 7
 	set "830" "828" ; FONCTXT "$1" "$2" ; echo -e "${CYELLOW}$TXT1${CEND} ${CGREEN}$TXT2${CEND}" #medusa 8
+	set "832" "834" ; FONCTXT "$1" "$2" ; echo -e "${CYELLOW}$TXT1${CEND} ${CGREEN}$TXT2${CEND}" #esm 9
 	set "818" "258" ; FONCTXT "$1" "$2" ; echo -e "${CYELLOW}$TXT1${CEND} ${CGREEN}$TXT2${CEND}" #sortir 0
 	set "260" ; FONCTXT "$1" ; echo -n -e "${CBLUE}$TXT1 ${CEND}"
 	read -r CHOIXS
@@ -248,6 +249,13 @@ clear
 
 			sed -i "s|@USER@|$USER|g;" "$NGINXCONFDRAT"/medusa.conf
 			sed -i "s|@PORT@|$PORT|g;" "$NGINXCONFDRAT"/medusa.conf
+			FONCSERVICE restart nginx
+		;;
+
+		9)
+			cp -R "$FILES"/esm/esm "$NGINXWEB"/esm
+			chown -R "$WDATA" "$NGINXWEB"/esm
+			cp -f "$FILES"/esm/esm.vhost "$NGINXCONFDRAT"/esm.conf
 			FONCSERVICE restart nginx
 		;;
 
