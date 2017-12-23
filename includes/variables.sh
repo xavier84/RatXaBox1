@@ -7,6 +7,7 @@ CRED="${CSI}1;31m"
 CGREEN="${CSI}1;32m"
 CYELLOW="${CSI}1;33m"
 CBLUE="${CSI}1;34m"
+CMAG="${CSI}1;35m"
 
 ARG="$*"
 VERSION=$(cat /etc/debian_version)
