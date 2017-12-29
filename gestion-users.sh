@@ -68,6 +68,7 @@ if FONCYES "$VALIDE"; then
 		set "848" "826" ; FONCTXT "$1" "$2" ; echo -e "${CYELLOW}$TXT1${CEND} ${CGREEN}$TXT2${CEND}" #couchpotato 106
 		set "850" "828" ; FONCTXT "$1" "$2" ; echo -e "${CYELLOW}$TXT1${CEND} ${CGREEN}$TXT2${CEND}" #medusa 107
 		set "852" "834" ; FONCTXT "$1" "$2" ; echo -e "${CYELLOW}$TXT1${CEND} ${CGREEN}$TXT2${CEND}" #esm 108
+		set "854" "864" ; FONCTXT "$1" "$2" ; echo -e "${CYELLOW}$TXT1${CEND} ${CGREEN}$TXT2${CEND}" #jackett 109
 		set "260"; FONCTXT "$1"; echo -n -e "${CBLUE}$TXT1 ${CEND}"
 		read -r OPTION
 
@@ -432,240 +433,284 @@ if FONCYES "$VALIDE"; then
 			;;
 
 			100)
-			apt-get install apt-transport-https -y
-			echo "deb https://downloads.plex.tv/repo/deb/ public main" > /etc/apt/sources.list.d/plexmediaserver.list
-			wget -q https://downloads.plex.tv/plex-keys/PlexSign.key -O - | apt-key add -
-			aptitude update && aptitude install -y plexmediaserver && service plexmediaserver start
-			#ajout icon de plex
-			if [ ! -d "$RUPLUGINS"/linkplex ];then
-				git clone https://github.com/xavier84/linkplex "$RUPLUGINS"/linkplex
-				chown -R "$WDATA" "$RUPLUGINS"/linkplex
+				apt-get install apt-transport-https -y
+				echo "deb https://downloads.plex.tv/repo/deb/ public main" > /etc/apt/sources.list.d/plexmediaserver.list
+				wget -q https://downloads.plex.tv/plex-keys/PlexSign.key -O - | apt-key add -
+				aptitude update && aptitude install -y plexmediaserver && service plexmediaserver start
+				#ajout icon de plex
+				if [ ! -d "$RUPLUGINS"/linkplex ];then
+					git clone https://github.com/xavier84/linkplex "$RUPLUGINS"/linkplex
+					chown -R "$WDATA" "$RUPLUGINS"/linkplex
 
-			fi
-		;;
+				fi
+			;;
 
-		101)
-			#ajout depot
-			echo "deb http://download.mono-project.com/repo/debian wheezy-apache24-compat main" | tee -a /etc/apt/sources.list.d/mono-xamarin.list
-			echo "deb http://download.mono-project.com/repo/debian wheezy-libjpeg62-compat main" | tee -a /etc/apt/sources.list.d/mono-xamarin.list
+			101)
+				#ajout depot
+				echo "deb http://download.mono-project.com/repo/debian wheezy-apache24-compat main" | tee -a /etc/apt/sources.list.d/mono-xamarin.list
+				echo "deb http://download.mono-project.com/repo/debian wheezy-libjpeg62-compat main" | tee -a /etc/apt/sources.list.d/mono-xamarin.list
 
-			if [[ $VERSION =~ 7. ]]; then
-				echo "deb http://download.mono-project.com/repo/debian wheezy main" > /etc/apt/sources.list.d/mono-official.list
-				echo 'deb http://download.opensuse.org/repositories/home:/emby/Debian_7.0/ /' > /etc/apt/sources.list.d/emby-server.list
-				wget -nv http://download.opensuse.org/repositories/home:emby/Debian_7.0/Release.key -O Release.key
-				apt-key add - < Release.key
-				apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
-			elif [[ $VERSION =~ 8. ]]; then
-				echo "deb http://download.mono-project.com/repo/debian jessie main" > /etc/apt/sources.list.d/mono-official.list
-				echo 'deb http://download.opensuse.org/repositories/home:/emby/Debian_8.0/ /' > /etc/apt/sources.list.d/emby-server.list
-				wget http://download.opensuse.org/repositories/home:emby/Debian_8.0/Release.key -O Release.key
-				apt-key add - < Release.key
-				apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
-			elif [[ $VERSION =~ 9. ]]; then
-				echo 'deb http://download.opensuse.org/repositories/home:/emby/Debian_9.0/ /' > /etc/apt/sources.list.d/emby-server.list
-				wget http://download.opensuse.org/repositories/home:emby/Debian_9.0/Release.key -O Release.key
-				apt-key add - < Release.key
-			fi
+				if [[ $VERSION =~ 7. ]]; then
+					echo "deb http://download.mono-project.com/repo/debian wheezy main" > /etc/apt/sources.list.d/mono-official.list
+					echo 'deb http://download.opensuse.org/repositories/home:/emby/Debian_7.0/ /' > /etc/apt/sources.list.d/emby-server.list
+					wget -nv http://download.opensuse.org/repositories/home:emby/Debian_7.0/Release.key -O Release.key
+					apt-key add - < Release.key
+					apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
+				elif [[ $VERSION =~ 8. ]]; then
+					echo "deb http://download.mono-project.com/repo/debian jessie main" > /etc/apt/sources.list.d/mono-official.list
+					echo 'deb http://download.opensuse.org/repositories/home:/emby/Debian_8.0/ /' > /etc/apt/sources.list.d/emby-server.list
+					wget http://download.opensuse.org/repositories/home:emby/Debian_8.0/Release.key -O Release.key
+					apt-key add - < Release.key
+					apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
+				elif [[ $VERSION =~ 9. ]]; then
+					echo 'deb http://download.opensuse.org/repositories/home:/emby/Debian_9.0/ /' > /etc/apt/sources.list.d/emby-server.list
+					wget http://download.opensuse.org/repositories/home:emby/Debian_9.0/Release.key -O Release.key
+					apt-key add - < Release.key
+				fi
 
-			aptitude update
-			aptitude install -y  mono-xsp4 emby-server
-			#ajout icon de emby
-			if [ ! -d "$RUPLUGINS"/linkemby ];then
-				git clone https://github.com/xavier84/linkemby "$RUPLUGINS"/linkemby
-				chown -R "$WDATA" "$RUPLUGINS"/linkemby
-			fi
-		;;
+				aptitude update
+				aptitude install -y  mono-xsp4 emby-server
+				#ajout icon de emby
+				if [ ! -d "$RUPLUGINS"/linkemby ];then
+					git clone https://github.com/xavier84/linkemby "$RUPLUGINS"/linkemby
+					chown -R "$WDATA" "$RUPLUGINS"/linkemby
+				fi
+			;;
 
 
-		102)
-			wget https://raw.githubusercontent.com/xavier84/Script-xavier/master/openvpn/openvpn-install.sh
-			chmod +x openvpn-install.sh && ./openvpn-install.sh
-		;;
+			102)
+				wget https://raw.githubusercontent.com/xavier84/Script-xavier/master/openvpn/openvpn-install.sh
+				chmod +x openvpn-install.sh && ./openvpn-install.sh
+			;;
 
-		103)
-			wget https://raw.githubusercontent.com/xavier84/Script-xavier/master/filebot/filebot.sh
-			chmod +x filebot.sh && ./filebot.sh
-		;;
+			103)
+				wget https://raw.githubusercontent.com/xavier84/Script-xavier/master/filebot/filebot.sh
+				chmod +x filebot.sh && ./filebot.sh
+			;;
 
-		104)
-			set "184" ; FONCTXT "$1" ; echo -e "${CGREEN}$TXT1 ${CEND}"
-			read -r USER
-			curl -s https://syncthing.net/release-key.txt | apt-key add -
-			echo "deb http://apt.syncthing.net/ syncthing release" | tee /etc/apt/sources.list.d/syncthing.list
-			apt-get update
-			apt-get install syncthing
+			104)
+				set "184" ; FONCTXT "$1" ; echo -e "${CGREEN}$TXT1 ${CEND}"
+				read -r USER
+				curl -s https://syncthing.net/release-key.txt | apt-key add -
+				echo "deb http://apt.syncthing.net/ syncthing release" | tee /etc/apt/sources.list.d/syncthing.list
+				apt-get update
+				apt-get install syncthing
 
-			cp -f "$FILES"/syncthing/syncthing@.service /etc/systemd/system/syncthing@"$USER".service
-			mkdir -p /home/"$USER"/.config/syncthing
-			chown -R "$USER":"$USER" /home/"$USER"/.config
-			chmod -R 700 /home/"$USER"/.config
-			systemctl enable syncthing@"$USER".service
-			systemctl start syncthing@"$USER".service
-			sleep 3
-			sed -i -e 's/127.0.0.1/0.0.0.0/g' /home/"$USER"/.config/syncthing/config.xml
-			sed -i -e '2,20d' /home/"$USER"/.config/syncthing/config.xml
-			systemctl restart syncthing@"$USER".service
-			cp -f "$BONOBOX"/files/syncthing/syncthing.vhost "$NGINXCONFDRAT"/syncthing.conf
-			FONCSERVICE restart nginx
-		;;
+				cp -f "$FILES"/syncthing/syncthing@.service /etc/systemd/system/syncthing@"$USER".service
+				mkdir -p /home/"$USER"/.config/syncthing
+				chown -R "$USER":"$USER" /home/"$USER"/.config
+				chmod -R 700 /home/"$USER"/.config
+				systemctl enable syncthing@"$USER".service
+				systemctl start syncthing@"$USER".service
+				sleep 3
+				sed -i -e 's/127.0.0.1/0.0.0.0/g' /home/"$USER"/.config/syncthing/config.xml
+				sed -i -e '2,20d' /home/"$USER"/.config/syncthing/config.xml
+				systemctl restart syncthing@"$USER".service
+				cp -f "$BONOBOX"/files/syncthing/syncthing.vhost "$NGINXCONFDRAT"/syncthing.conf
+				FONCSERVICE restart nginx
+			;;
 
-		105)
-			set "184" ; FONCTXT "$1" ; echo -e "${CGREEN}$TXT1 ${CEND}"
-			read -r USER
-			if [ ! -d "$SICKRAGE" ];then
-				apt-get install -y git-core python python-cheetah
-				git clone https://github.com/SickRage/SickRage "$SICKRAGE"
-				chown -R "$USER":"$USER" "$SICKRAGE"
-				chmod -R 755 "$SICKRAGE"
+			105)
+				set "184" ; FONCTXT "$1" ; echo -e "${CGREEN}$TXT1 ${CEND}"
+				read -r USER
+				if [ ! -d "$SICKRAGE" ];then
+					apt-get install -y git-core python python-cheetah
+					git clone https://github.com/SickRage/SickRage "$SICKRAGE"
+					chown -R "$USER":"$USER" "$SICKRAGE"
+					chmod -R 755 "$SICKRAGE"
+					#compteur
+					PORT=20001
+					echo "$PORT" >> "$SICKRAGE"/histo.log
+				fi
+				# calcul port sickrage
+				FONCPORT "$SICKRAGE" 20001
 				#compteur
-				PORT=20001
 				echo "$PORT" >> "$SICKRAGE"/histo.log
-			fi
-			# calcul port sickrage
-			FONCPORT "$SICKRAGE" 20001
-			#compteur
-			echo "$PORT" >> "$SICKRAGE"/histo.log
-			#config
-			cp -f "$BONOBOX"/files/sickrage/sickrage.init /etc/init.d/sickrage-"$USER"
-			chmod +x /etc/init.d/sickrage-"$USER"
-			sed -i -e 's/xataz/'$USER'/g' /etc/init.d/sickrage-"$USER"
-			sed -i -e 's/SR_USER=/SR_USER='$USER'/g' /etc/init.d/sickrage-"$USER"
-			/etc/init.d/sickrage-"$USER" start && sleep 5 && /etc/init.d/sickrage-"$USER" stop
-			sleep 1
-			sed -i -e 's/web_root = ""/web_root = \/sickrage/g' "$SICKRAGE"/data/"$USER"/config.ini
-			sed -i -e 's/web_port = 8081/web_port = '$PORT'/g' "$SICKRAGE"/data/"$USER"/config.ini
-			sed -i -e 's/torrent_dir = ""/torrent_dir = \/home\/'$USER'\/watch\//g' "$SICKRAGE"/data/"$USER"/config.ini
-			sed -i -e 's/web_host = 0.0.0.0/web_host = 127.0.0.1/g' "$SICKRAGE"/data/"$USER"/config.ini
-			FONCSCRIPT "$USER" sickrage
-			FONCSERVICE start sickrage-"$USER"
+				#config
+				cp -f "$BONOBOX"/files/sickrage/sickrage.init /etc/init.d/sickrage-"$USER"
+				chmod +x /etc/init.d/sickrage-"$USER"
+				sed -i -e 's/xataz/'$USER'/g' /etc/init.d/sickrage-"$USER"
+				sed -i -e 's/SR_USER=/SR_USER='$USER'/g' /etc/init.d/sickrage-"$USER"
+				/etc/init.d/sickrage-"$USER" start && sleep 5 && /etc/init.d/sickrage-"$USER" stop
+				sleep 1
+				sed -i -e 's/web_root = ""/web_root = \/sickrage/g' "$SICKRAGE"/data/"$USER"/config.ini
+				sed -i -e 's/web_port = 8081/web_port = '$PORT'/g' "$SICKRAGE"/data/"$USER"/config.ini
+				sed -i -e 's/torrent_dir = ""/torrent_dir = \/home\/'$USER'\/watch\//g' "$SICKRAGE"/data/"$USER"/config.ini
+				sed -i -e 's/web_host = 0.0.0.0/web_host = 127.0.0.1/g' "$SICKRAGE"/data/"$USER"/config.ini
+				FONCSCRIPT "$USER" sickrage
+				FONCSERVICE start sickrage-"$USER"
 
-			if [ ! -f "$NGINXCONFDRAT"/sickrage.conf ]; then
-				cp -f "$BONOBOX"/files/sickrage/sickrage.vhost "$NGINXCONFDRAT"/sickrage.conf
-			else
-				sed -i '$d' "$NGINXCONFDRAT"/sickrage.conf
-				cat <<- EOF >> "$NGINXCONFDRAT"/sickrage.conf
-				                if (\$remote_user = "@USER@") {
-				                        proxy_pass http://127.0.0.1:@PORT@;
-				                        break;
-		    		           }
-		    		  }
-				EOF
-			fi
+				if [ ! -f "$NGINXCONFDRAT"/sickrage.conf ]; then
+					cp -f "$BONOBOX"/files/sickrage/sickrage.vhost "$NGINXCONFDRAT"/sickrage.conf
+				else
+					sed -i '$d' "$NGINXCONFDRAT"/sickrage.conf
+					cat <<- EOF >> "$NGINXCONFDRAT"/sickrage.conf
+					                if (\$remote_user = "@USER@") {
+					                        proxy_pass http://127.0.0.1:@PORT@;
+					                        break;
+			    		           }
+			    		  }
+					EOF
+				fi
 
-			sed -i "s|@USER@|$USER|g;" "$NGINXCONFDRAT"/sickrage.conf
-			sed -i "s|@PORT@|$PORT|g;" "$NGINXCONFDRAT"/sickrage.conf
-			FONCSERVICE restart nginx
+				sed -i "s|@USER@|$USER|g;" "$NGINXCONFDRAT"/sickrage.conf
+				sed -i "s|@PORT@|$PORT|g;" "$NGINXCONFDRAT"/sickrage.conf
+				FONCSERVICE restart nginx
 
-		;;
+			;;
 
-		105)
-			set "184" ; FONCTXT "$1" ; echo -e "${CGREEN}$TXT1 ${CEND}"
-			read -r USER
-			if [ ! -d "$COUCHPOTATO" ];then
-				apt-get install -y git-core python python-cheetah
-				git clone https://github.com/CouchPotato/CouchPotatoServer.git "$COUCHPOTATO"
-				chown -R "$USER":"$USER" "$COUCHPOTATO"
-				chmod -R 755 "$COUCHPOTATO"
+			105)
+				set "184" ; FONCTXT "$1" ; echo -e "${CGREEN}$TXT1 ${CEND}"
+				read -r USER
+				if [ ! -d "$COUCHPOTATO" ];then
+					apt-get install -y git-core python python-cheetah
+					git clone https://github.com/CouchPotato/CouchPotatoServer.git "$COUCHPOTATO"
+					chown -R "$USER":"$USER" "$COUCHPOTATO"
+					chmod -R 755 "$COUCHPOTATO"
+					#compteur
+					PORT=5051
+					echo "$PORT" >> "$COUCHPOTATO"/histo.log
+				fi
+				# calcul port sickrage
+				FONCPORT "$COUCHPOTATO" 5051
 				#compteur
-				PORT=5051
 				echo "$PORT" >> "$COUCHPOTATO"/histo.log
-			fi
-			# calcul port sickrage
-			FONCPORT "$COUCHPOTATO" 5051
-			#compteur
-			echo "$PORT" >> "$COUCHPOTATO"/histo.log
-			#config couch
-			cp -f "$BONOBOX"/files/couchpotato/ubuntu /etc/init.d/couchpotato-"$USER"
-			sed -i -e 's/CONFIG=\/etc\/default\/couchpotato/#CONFIG=\/etc\/default\/couchpotato/g' /etc/init.d/couchpotato-"$USER"
-			sed -i -e 's/# Provides:          couchpotato/# Provides:          '$USER'/g' /etc/init.d/couchpotato-"$USER"
-			sed -i -e 's/CP_USER:=couchpotato/CP_USER:='$USER'/g' /etc/init.d/couchpotato-"$USER"
-			sed -i -e 's/CP_DATA:=\/var\/opt\/couchpotato/CP_DATA:=\/opt\/couchpotato\/data\/'$USER'/g' /etc/init.d/couchpotato-"$USER"
-			sed -i -e 's/CP_PIDFILE:=\/var\/run\/couchpotato\/couchpotato.pid/CP_PIDFILE:=\/opt\/couchpotato\/data\/'$USER'\/couchpotato.pid/g' /etc/init.d/couchpotato-"$USER"
-			chmod +x /etc/init.d/couchpotato-"$USER"
-			FONCSCRIPT "$USER" couchpotato
-			/etc/init.d/couchpotato-"$USER" start && sleep 5 && /etc/init.d/couchpotato-"$USER" stop
-			sleep 1
-			#config de user couch
-			chmod -Rf 755  "$COUCHPOTATO"/data/
-			cp -f "$BONOBOX"/files/couchpotato/settings.conf "$COUCHPOTATO"/data/"$USER"/settings.conf
-			sed -i "s|@USER@|$USER|g;" "$COUCHPOTATO"/data/"$USER"/settings.conf
-			sed -i "s|@PORT@|$PORT|g;" "$COUCHPOTATO"/data/"$USER"/settings.conf
-			FONCSCRIPT "$USER" couchpotato
-			FONCSERVICE start couchpotato-"$USER"
+				#config couch
+				cp -f "$BONOBOX"/files/couchpotato/ubuntu /etc/init.d/couchpotato-"$USER"
+				sed -i -e 's/CONFIG=\/etc\/default\/couchpotato/#CONFIG=\/etc\/default\/couchpotato/g' /etc/init.d/couchpotato-"$USER"
+				sed -i -e 's/# Provides:          couchpotato/# Provides:          '$USER'/g' /etc/init.d/couchpotato-"$USER"
+				sed -i -e 's/CP_USER:=couchpotato/CP_USER:='$USER'/g' /etc/init.d/couchpotato-"$USER"
+				sed -i -e 's/CP_DATA:=\/var\/opt\/couchpotato/CP_DATA:=\/opt\/couchpotato\/data\/'$USER'/g' /etc/init.d/couchpotato-"$USER"
+				sed -i -e 's/CP_PIDFILE:=\/var\/run\/couchpotato\/couchpotato.pid/CP_PIDFILE:=\/opt\/couchpotato\/data\/'$USER'\/couchpotato.pid/g' /etc/init.d/couchpotato-"$USER"
+				chmod +x /etc/init.d/couchpotato-"$USER"
+				FONCSCRIPT "$USER" couchpotato
+				/etc/init.d/couchpotato-"$USER" start && sleep 5 && /etc/init.d/couchpotato-"$USER" stop
+				sleep 1
+				#config de user couch
+				chmod -Rf 755  "$COUCHPOTATO"/data/
+				cp -f "$BONOBOX"/files/couchpotato/settings.conf "$COUCHPOTATO"/data/"$USER"/settings.conf
+				sed -i "s|@USER@|$USER|g;" "$COUCHPOTATO"/data/"$USER"/settings.conf
+				sed -i "s|@PORT@|$PORT|g;" "$COUCHPOTATO"/data/"$USER"/settings.conf
+				FONCSCRIPT "$USER" couchpotato
+				FONCSERVICE start couchpotato-"$USER"
 
-			if [ ! -f "$NGINXCONFDRAT"/couchpotato.conf ]; then
-				cp -f "$BONOBOX"/files/couchpotato/couchpotato.vhost "$NGINXCONFDRAT"/couchpotato.conf
-			else
-				#config nginx couchpotato
-				sed -i '$d' "$NGINXCONFDRAT"/couchpotato.conf
-				cat <<- EOF >> "$NGINXCONFDRAT"/couchpotato.conf
-				                if (\$remote_user = "@USER@") {
-			                        proxy_pass http://127.0.0.1:@PORT@;
-			                        break;
-				               }
-				      }
-				EOF
-			fi
-
-			sed -i "s|@USER@|$USER|g;" "$NGINXCONFDRAT"/couchpotato.conf
-			sed -i "s|@PORT@|$PORT|g;" "$NGINXCONFDRAT"/couchpotato.conf
-			FONCSERVICE restart nginx
-		;;
-
-		107)
-			set "184" ; FONCTXT "$1" ; echo -e "${CGREEN}$TXT1 ${CEND}"
-			read -r USER
-			if [ ! -d "$MEDUSA" ];then
-				apt-get install -y git-core python python-cheetah
-				git clone git://github.com/pymedusa/Medusa.git "$MEDUSA"
-				chown -R "$USER":"$USER" "$MEDUSA"
-				chmod -R 755 "$MEDUSA"
-				#compteur
-				PORT=5051
-				echo "$PORT" >> "$MEDUSA"/histo.log
-			fi
-			# calcul port medusa
-			FONCPORT "$MEDUSA" 20100
-			#compteur
-			echo "$PORT" >> "$MEDUSA"/histo.log
-			#config
-			cp -f "$BONOBOX"/files/medusa/medusa.init /etc/init.d/medusa-"$USER"
-			chmod +x /etc/init.d/medusa-"$USER"
-			sed -i -e 's/xataz/'$USER'/g' /etc/init.d/medusa-"$USER"
-			sed -i -e 's/MD_USER=/MD_USER='$USER'/g' /etc/init.d/medusa-"$USER"
-			/etc/init.d/medusa-"$USER" start && sleep 5 && /etc/init.d/medusa-"$USER" stop
-			sleep 1
-			sed -i -e 's/web_root = ""/web_root = \/medusa/g' "$MEDUSA"/data/"$USER"/config.ini
-			sed -i -e 's/web_port = 8081/web_port = '$PORT'/g' "$MEDUSA"/data/"$USER"/config.ini
-			sed -i -e 's/torrent_dir = ""/torrent_dir = \/home\/'$USER'\/watch\//g' "$MEDUSA"/data/"$USER"/config.ini
-			sed -i -e 's/web_host = 0.0.0.0/web_host = 127.0.0.1/g' "$MEDUSA"/data/"$USER"/config.ini
-			FONCSCRIPT "$USER" medusa
-			FONCSERVICE start medusa-"$USER"
-
-			if [ ! -f "$NGINXCONFDRAT"/medusa.conf ]; then
-				cp -f "$BONOBOX"/files/medusa/medusa.vhost "$NGINXCONFDRAT"/medusa.conf
-			else
-				sed -i '$d' "$NGINXCONFDRAT"/medusa.conf
-				cat <<- EOF >> "$NGINXCONFDRAT"/medusa.conf
-				                if (\$remote_user = "@USER@") {
+				if [ ! -f "$NGINXCONFDRAT"/couchpotato.conf ]; then
+					cp -f "$BONOBOX"/files/couchpotato/couchpotato.vhost "$NGINXCONFDRAT"/couchpotato.conf
+				else
+					#config nginx couchpotato
+					sed -i '$d' "$NGINXCONFDRAT"/couchpotato.conf
+					cat <<- EOF >> "$NGINXCONFDRAT"/couchpotato.conf
+					                if (\$remote_user = "@USER@") {
 				                        proxy_pass http://127.0.0.1:@PORT@;
 				                        break;
-		    		           }
-		    		  }
-				EOF
-			fi
+					               }
+					      }
+					EOF
+				fi
 
-			sed -i "s|@USER@|$USER|g;" "$NGINXCONFDRAT"/medusa.conf
-			sed -i "s|@PORT@|$PORT|g;" "$NGINXCONFDRAT"/medusa.conf
-			FONCSERVICE restart nginx
-		;;
+				sed -i "s|@USER@|$USER|g;" "$NGINXCONFDRAT"/couchpotato.conf
+				sed -i "s|@PORT@|$PORT|g;" "$NGINXCONFDRAT"/couchpotato.conf
+				FONCSERVICE restart nginx
+			;;
 
-		108)
-			cp -R "$FILES"/esm/esm "$NGINXWEB"/esm
-			chown -R "$WDATA" "$NGINXWEB"/esm
-			cp -f "$FILES"/esm/esm.vhost "$NGINXCONFDRAT"/esm.conf
-			FONCSERVICE restart nginx
-		;;
+			107)
+				set "184" ; FONCTXT "$1" ; echo -e "${CGREEN}$TXT1 ${CEND}"
+				read -r USER
+				if [ ! -d "$MEDUSA" ];then
+					apt-get install -y git-core python python-cheetah
+					git clone git://github.com/pymedusa/Medusa.git "$MEDUSA"
+					chown -R "$USER":"$USER" "$MEDUSA"
+					chmod -R 755 "$MEDUSA"
+					#compteur
+					PORT=5051
+					echo "$PORT" >> "$MEDUSA"/histo.log
+				fi
+				# calcul port medusa
+				FONCPORT "$MEDUSA" 20100
+				#compteur
+				echo "$PORT" >> "$MEDUSA"/histo.log
+				#config
+				cp -f "$BONOBOX"/files/medusa/medusa.init /etc/init.d/medusa-"$USER"
+				chmod +x /etc/init.d/medusa-"$USER"
+				sed -i -e 's/xataz/'$USER'/g' /etc/init.d/medusa-"$USER"
+				sed -i -e 's/MD_USER=/MD_USER='$USER'/g' /etc/init.d/medusa-"$USER"
+				/etc/init.d/medusa-"$USER" start && sleep 5 && /etc/init.d/medusa-"$USER" stop
+				sleep 1
+				sed -i -e 's/web_root = ""/web_root = \/medusa/g' "$MEDUSA"/data/"$USER"/config.ini
+				sed -i -e 's/web_port = 8081/web_port = '$PORT'/g' "$MEDUSA"/data/"$USER"/config.ini
+				sed -i -e 's/torrent_dir = ""/torrent_dir = \/home\/'$USER'\/watch\//g' "$MEDUSA"/data/"$USER"/config.ini
+				sed -i -e 's/web_host = 0.0.0.0/web_host = 127.0.0.1/g' "$MEDUSA"/data/"$USER"/config.ini
+				FONCSCRIPT "$USER" medusa
+				FONCSERVICE start medusa-"$USER"
+
+				if [ ! -f "$NGINXCONFDRAT"/medusa.conf ]; then
+					cp -f "$BONOBOX"/files/medusa/medusa.vhost "$NGINXCONFDRAT"/medusa.conf
+				else
+					sed -i '$d' "$NGINXCONFDRAT"/medusa.conf
+					cat <<- EOF >> "$NGINXCONFDRAT"/medusa.conf
+					                if (\$remote_user = "@USER@") {
+					                        proxy_pass http://127.0.0.1:@PORT@;
+					                        break;
+			    		           }
+			    		  }
+					EOF
+				fi
+
+				sed -i "s|@USER@|$USER|g;" "$NGINXCONFDRAT"/medusa.conf
+				sed -i "s|@PORT@|$PORT|g;" "$NGINXCONFDRAT"/medusa.conf
+				FONCSERVICE restart nginx
+			;;
+
+			108)
+				cp -R "$FILES"/esm/esm "$NGINXWEB"/esm
+				chown -R "$WDATA" "$NGINXWEB"/esm
+				cp -f "$FILES"/esm/esm.vhost "$NGINXCONFDRAT"/esm.conf
+				FONCSERVICE restart nginx
+			;;
+
+			109)
+				set "184" ; FONCTXT "$1" ; echo -e "${CGREEN}$TXT1 ${CEND}"
+				read -r USER
+				aptitude install dirmngr
+
+				if [[ $VERSION =~ 7. ]]; then
+					apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
+					echo "deb http://download.mono-project.com/repo/debian wheezy main" | tee /etc/apt/sources.list.d/mono-official.list
+				elif [[ $VERSION =~ 8. ]]; then
+					apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
+					echo "deb http://download.mono-project.com/repo/debian jessie main" | tee /etc/apt/sources.list.d/mono-official.list
+				elif [[ $VERSION =~ 9. ]]; then
+					apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
+					echo "deb http://download.mono-project.com/repo/debian stretch main" | tee /etc/apt/sources.list.d/mono-official.list
+				fi
+
+				aptitude update && aptitude install -y  mono-xsp4
+
+
+				LATEST_RELEASE=$(curl -L -s -H 'Accept: application/json' https://github.com/Jackett/Jackett/releases/latest)
+				LATEST_VERSION=$(echo $LATEST_RELEASE | sed -e 's/.*"tag_name":"\([^"]*\)".*/\1/')
+				wget https://github.com/Jackett/Jackett/releases/download/"$LATEST_VERSION"/Jackett.Binaries.Mono.tar.gz
+
+				tar -xvf Jackett.Binaries.Mono.tar.gz
+				mkdir /opt/jackett
+				mv Jackett/* /opt/jackett
+				chown -R "$USER":"$USER" /opt/jackett
+				mkdir /home/"$USER"/.config
+				chown -R "$USER":"$USER" /home/"$USER"/.config
+
+				cp -f "$BONOBOX"/files/jackett/jackett /etc/init.d/jackett
+				sed -i -e "s/RUN_AS=/RUN_AS=$USER/g" /etc/init.d/jackett
+				chmod +x /etc/init.d/jackett
+				update-rc.d jackett defaults
+				FONCSERVICE start jackett && sleep 1 && FONCSERVICE stop jackett
+
+				sed -i -e 's/"BasePathOverride": null/"BasePathOverride": "\/jackett"/g' /home/"$USER"/.config/Jackett/ServerConfig.json
+				service jackett start
+
+				cp -f "$BONOBOX"/files/jackett/jackett.vhost "$NGINXCONFDRAT"/jackett.conf
+
+				FONCSERVICE restart nginx
+			;;
 
 			*) # fail
 				set "292"; FONCTXT "$1"; echo -e "${CRED}$TXT1${CEND}"
