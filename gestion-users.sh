@@ -15,6 +15,8 @@ fi
 # test si ratxabox 9
 if [ ! -f "$RUTORRENT"/ratxabox9.txt ]; then
 	echo ""
+	echo ""; set "866"; FONCTXT "$1"; echo -e "${CRED}$TXT1${CEND}"; echo ""
+	echo ""
 	echo "cd /tmp"
 	echo "rm -rf ratxabox"
 	echo "git clone https://github.com/xavier84/RatXaBox7-8 ratxabox"
