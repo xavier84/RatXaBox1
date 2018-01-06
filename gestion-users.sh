@@ -643,6 +643,7 @@ if FONCYES "$VALIDE"; then
 				sed -i -e 's/torrent_dir = ""/torrent_dir = \/home\/'$USER'\/watch\//g' "$MEDUSA"/data/"$USER"/config.ini
 				sed -i -e 's/web_host = 0.0.0.0/web_host = 127.0.0.1/g' "$MEDUSA"/data/"$USER"/config.ini
 				FONCSCRIPT "$USER" medusa
+				systemctl daemon-reload
 				FONCSERVICE start medusa-"$USER"
 
 				if [ ! -f "$NGINXCONFDRAT"/medusa.conf ]; then
