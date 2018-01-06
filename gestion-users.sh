@@ -636,6 +636,7 @@ if FONCYES "$VALIDE"; then
 				chmod +x /etc/init.d/medusa-"$USER"
 				sed -i -e 's/xataz/'$USER'/g' /etc/init.d/medusa-"$USER"
 				sed -i -e 's/MD_USER=/MD_USER='$USER'/g' /etc/init.d/medusa-"$USER"
+				systemctl daemon-reload
 				/etc/init.d/medusa-"$USER" start && sleep 5 && /etc/init.d/medusa-"$USER" stop
 				sleep 1
 				sed -i -e 's/web_root = ""/web_root = \/medusa/g' "$MEDUSA"/data/"$USER"/config.ini
@@ -643,7 +644,6 @@ if FONCYES "$VALIDE"; then
 				sed -i -e 's/torrent_dir = ""/torrent_dir = \/home\/'$USER'\/watch\//g' "$MEDUSA"/data/"$USER"/config.ini
 				sed -i -e 's/web_host = 0.0.0.0/web_host = 127.0.0.1/g' "$MEDUSA"/data/"$USER"/config.ini
 				FONCSCRIPT "$USER" medusa
-				systemctl daemon-reload
 				FONCSERVICE start medusa-"$USER"
 
 				if [ ! -f "$NGINXCONFDRAT"/medusa.conf ]; then
