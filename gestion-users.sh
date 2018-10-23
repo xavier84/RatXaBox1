@@ -689,7 +689,7 @@ if FONCYES "$VALIDE"; then
 					echo "deb http://download.mono-project.com/repo/debian stretch main" | tee /etc/apt/sources.list.d/mono-official.list
 				fi
 
-				aptitude update && aptitude install -y  mono-xsp4
+				aptitude update && aptitude install -y  mono-xsp4 mono-devel libcurl4-openssl-dev
 
 
 				LATEST_RELEASE=$(curl -L -s -H 'Accept: application/json' https://github.com/Jackett/Jackett/releases/latest)
