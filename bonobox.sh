@@ -221,9 +221,11 @@ if [ ! -f "$NGINXENABLE"/rutorrent.conf ]; then
 		libmms0 \
 		pastebinit \
 		sox \
-		libsox-fmt-mp3\
+		libsox-fmt-mp3 \
 		zlib1g-dev \
 		gawk \
+		# reserve zap xlmrpc debian 8/9
+		# libxmlrpc-c++8-dev \
 		libncursesw5-dev \
 		cpufrequtils
 
@@ -327,10 +329,10 @@ if [ ! -f "$NGINXENABLE"/rutorrent.conf ]; then
 	git checkout "$LIBTORRENT"
 	git cherry-pick 7b29b6b
 
-	#if [[ $(echo "$VERSION" "9" | awk '{print ($1 >= $2)}') == 1 ]]; then
-	#	cp -f "$FILES"/rutorrent/configure.ac /tmp/libtorrent/configure.ac
-	#	cp -f "$FILES"/rutorrent/diffie_hellman.cc /tmp/libtorrent/src/utils/diffie_hellman.cc
-	#fi
+	# if [[ $(echo "$VERSION" "9" | awk '{print ($1 >= $2)}') == 1 ]]; then
+		#cp -f "$FILES"/rutorrent/configure.ac /tmp/libtorrent/configure.ac
+		#cp -f "$FILES"/rutorrent/diffie_hellman.cc /tmp/libtorrent/src/utils/diffie_hellman.cc
+	# fi
 
 	./autogen.sh
 	./configure --disable-debug
@@ -778,6 +780,8 @@ if [ ! -f "$NGINXENABLE"/rutorrent.conf ]; then
 		if FONCNO "$REPONSE"; then
 			# fin d'installation
 			echo ""; set "192"; FONCTXT "$1"; echo -e "${CBLUE}$TXT1${CEND}"
+			CLEANPASS="$(grep 182 "$BONOBOX"/lang/"$GENLANG".lang | cut -c5- | sed "s/.$//")"
+			sed -i "/$CLEANPASS/,+4d" /tmp/install.log
 			cp -f /tmp/install.log "$RUTORRENT"/install.log
 			sh "$SCRIPT"/logserver.sh
 			ccze -h < "$RUTORRENT"/install.log > "$RUTORRENT"/install.html
