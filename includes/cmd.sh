@@ -1,5 +1,11 @@
 #!/bin/bash
 
+if [ -f /usr/bin/cat ]; then
+   CMDCAT="/usr/bin/cat"
+else
+   CMDCAT="/bin/cat"
+fi
+
 #CMDPATH=$(/usr/bin/lsb_release -cs)
 CMDPATH=$("$CMDCAT" /etc/debian_version)
 
